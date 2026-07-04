@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Export PDF - Lycée Analytics{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h2 class="page-title">
+                <i class="bi bi-file-earmark-pdf me-2"></i>Export PDF
+            </h2>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-download me-2"></i>Génération du Rapport
+                </div>
+                <div class="card-body text-center">
+                    <p class="lead">
+                        Générez un <strong>rapport universitaire complet</strong> au format PDF
+                        contenant toutes les analyses et interprétations.
+                    </p>
+
+                    <div class="alert alert-info">
+                        <h6><i class="bi bi-file-text me-2"></i>Contenu du rapport :</h6>
+                        <ul class="list-unstyled mb-1">
+                            <li><i class="bi bi-check me-2"></i>Page de garde</li>
+                            <li><i class="bi bi-check me-2"></i>Table des matières</li>
+                            <li><i class="bi bi-check me-2"></i>Introduction et contexte</li>
+                            <li><i class="bi bi-check me-2"></i>Présentation des données</li>
+                            <li><i class="bi bi-check me-2"></i>Analyses statistiques (Q1-Q4)</li>
+                            <li><i class="bi bi-check me-2"></i>Interprétations détaillées</li>
+                            <li><i class="bi bi-check me-2"></i>Limites et conclusion</li>
+                            <li><i class="bi bi-check me-2"></i>Bibliographie</li>
+                        </ul>
+                    </div>
+
+                    <a href="/api/export/pdf" class="btn btn-primary btn-lg" target="_blank">
+                        <i class="bi bi-file-earmark-pdf me-2"></i>
+                        Télécharger le Rapport PDF
+                    </a>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <i class="bi bi-info-circle me-2"></i>Informations
+                </div>
+                <div class="card-body">
+                    <p>
+                        Le rapport est généré automatiquement à partir des données actuelles
+                        de la base de données. Assurez-vous d'avoir généré les données avant
+                        de télécharger le rapport.
+                    </p>
+                    <p class="mb-1">
+                        <strong>Format :</strong> PDF A4, environ 15-20 pages
+                    </p>
+                    <p class="mb-1">
+                        <strong>Génération :</strong> Automatique avec FPDF2
+                    </p>
+                    <p class="mb-1">
+                        <strong>Langue :</strong> Français
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

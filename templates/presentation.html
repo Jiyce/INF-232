@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block title %}Présentation - Lycée Analytics{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <h2 class="page-title">
+                <i class="bi bi-info-circle me-2"></i>Présentation du Projet
+            </h2>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="bi bi-book me-2"></i>Contexte
+                </div>
+                <div class="card-body">
+                    <p>
+                        Dans le cadre d'un <strong>TP universitaire de Statistiques et Analyse de Données</strong>,
+                        nous avons développé cette application pour analyser les performances des élèves de Terminale.
+                    </p>
+                    <p>
+                        Le proviseur d'un lycée souhaite comprendre les facteurs influençant la réussite scolaire
+                        et prédire l'orientation la plus adaptée pour chaque élève.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="bi bi-bullseye me-2"></i>Objectifs
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            Analyser la distribution des notes de mathématiques
+                        </li>
+                        <li class="list-group-item">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            Étudier la relation entre heures d'étude et performances
+                        </li>
+                        <li class="list-group-item">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            Identifier les profils d'élèves par classification non supervisée
+                        </li>
+                        <li class="list-group-item">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            Prédire l'orientation recommandée par classification supervisée
+                        </li>
+                        <li class="list-group-item">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                            Produire un rapport universitaire complet exportable en PDF
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="bi bi-database me-2"></i>Données Disponibles
+                </div>
+                <div class="card-body">
+                    <p>Pour chaque élève, nous disposons de :</p>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Variable</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>Plage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>note_math</code></td>
+                                    <td>Continue</td>
+                                    <td>Note de mathématiques sur 20</td>
+                                    <td>[4, 19]</td>
+                                </tr>
+                                <tr>
+                                    <td><code>heures_etude</code></td>
+                                    <td>Continue</td>
+                                    <td>Heures d'étude par semaine</td>
+                                    <td>[2, 30]</td>
+                                </tr>
+                                <tr>
+                                    <td><code>orientation</code></td>
+                                    <td>Catégorielle</td>
+                                    <td>Orientation recommandée</td>
+                                    <td>{Scientifique, Littéraire}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="bi bi-gear me-2"></i>Technologies Utilisées
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6><i class="bi bi-server me-2"></i>Backend</h6>
+                            <ul>
+                                <li>Python 3.11+</li>
+                                <li>FastAPI (framework web)</li>
+                                <li>SQLAlchemy (ORM)</li>
+                                <li>SQLite (base de données)</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6><i class="bi bi-laptop me-2"></i>Frontend</h6>
+                            <ul>
+                                <li>HTML5 / CSS3</li>
+                                <li>Bootstrap 5 (UI responsive)</li>
+                                <li>Plotly.js (graphiques interactifs)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <h6><i class="bi bi-calculator me-2"></i>Data Science</h6>
+                            <ul>
+                                <li>NumPy (calculs numériques)</li>
+                                <li>Pandas (manipulation de données)</li>
+                                <li>SciPy (statistiques)</li>
+                                <li>Scikit-learn (Machine Learning)</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6><i class="bi bi-file-earmark-text me-2"></i>Export</h6>
+                            <ul>
+                                <li>FPDF2 (génération PDF)</li>
+                                <li>Rapport universitaire complet</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

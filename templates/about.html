@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}À propos - Lycée Analytics{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <h2 class="page-title">
+                <i class="bi bi-question-circle me-2"></i>À propos
+            </h2>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="bi bi-info-circle me-2"></i>Informations sur l'application
+                </div>
+                <div class="card-body">
+                    <h5>Lycée Analytics</h5>
+                    <p>
+                        Application d'analyse des performances des élèves de Terminale,
+                        développée dans le cadre d'un <strong>TP universitaire de Statistiques
+                        et Analyse de Données</strong>.
+                    </p>
+
+                    <h6 class="mt-4"><i class="bi bi-gear me-2"></i>Technologies</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Python 3.11+</li>
+                                <li>FastAPI</li>
+                                <li>SQLAlchemy</li>
+                                <li>SQLite</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Bootstrap 5</li>
+                                <li>Plotly.js</li>
+                                <li>Jinja2</li>
+                                <li>FPDF2</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h6 class="mt-4"><i class="bi bi-calculator me-2"></i>Bibliothèques Data Science</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>NumPy</li>
+                                <li>Pandas</li>
+                                <li>SciPy</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Scikit-learn</li>
+                                <li>Matplotlib</li>
+                                <li>Plotly</li>
+                            </ul>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="bi bi-book me-2"></i>Bibliographie
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li>
+                            <strong>FastAPI Documentation</strong> - <em>fastapi.tiangolo.com</em>
+                        </li>
+                        <li>
+                            <strong>SQLAlchemy Documentation</strong> - <em>docs.sqlalchemy.org</em>
+                        </li>
+                        <li>
+                            <strong>Scikit-learn User Guide</strong> - <em>scikit-learn.org</em>
+                        </li>
+                        <li>
+                            <strong>Plotly Python Graphing Library</strong> - <em>plotly.com/python</em>
+                        </li>
+                        <li>
+                            <strong>Bootstrap 5 Documentation</strong> - <em>getbootstrap.com</em>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-mortarboard me-2"></i>Contexte Académique
+                </div>
+                <div class="card-body">
+                    <p>
+                        Ce projet a été conçu pour illustrer l'application des méthodes
+                        statistiques et de Machine Learning à des données scolaires réalistes.
+                    </p>
+                    <p class="mb-1">
+                        Les analyses couvrent :
+                    </p>
+                    <ul>
+                        <li>Statistique descriptive univariée</li>
+                        <li>Analyse bivariée et régression linéaire</li>
+                        <li>Classification non supervisée (K-Means)</li>
+                        <li>Classification supervisée (Arbre de décision)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

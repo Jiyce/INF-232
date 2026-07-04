@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}Question 3 - Classification Non Supervisée{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="page-title">
+                <span class="question-number">3</span>
+                Classification Non Supervisée (K-Means)
+            </h2>
+        </div>
+    </div>
+
+    {% if results %}
+    <!-- Nombre optimal de clusters -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-check-circle me-2"></i>Nombre Optimal de Clusters
+                </div>
+                <div class="card-body text-center">
+                    <h3 class="text-primary">{{ results.optimal_k }} clusters</h3>
+                    <p class="text-muted">
+                        Déterminé par la méthode du coude et le score de silhouette
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Graphiques -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-graph-down me-2"></i>Méthode du Coude
+                </div>
+                <div class="card-body">
+                    <div id="elbow" class="plotly-graph"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-award me-2"></i>Score de Silhouette
+                </div>
+                <div class="card-body">
+                    <div id="silhouette" class="plotly-graph"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Clusters -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-scatter-chart me-2"></i>Visualisation des Clusters
+                </div>
+                <div class="card-body">
+                    <div id="clusters" class="plotly-graph" style="height: 500px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Caractéristiques des clusters -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-table me-2"></i>Caractéristiques des Groupes
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Groupe</th>
+                                    <th>Taille</th>
+                                    <th>Note Moyenne</th>
+                                    <th>Heures Moyennes</th>
+                                    <th>% Scientifique</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for cluster in results.clusters_info %}
+                                <tr>
+                                    <td><span class="badge" style="background-color: {{ cluster.color }}">Groupe {{ cluster.id + 1 }}</span></td>
+                                    <td>{{ cluster.size }}</td>
+                                    <td>{{ "%.2f"|format(cluster.avg_note) }}</td>
+                                    <td>{{ "%.1f"|format(cluster.avg_heures) }}h</td>
+                                    <td>{{ "%.1f"|format(cluster.pct_scientifique) }}%</td>
+                                    <td>{{ cluster.description }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interprétation -->
+    <div class="row mt-4 mb-5">
+        <div class="col-12">
+            <div class="interpretation-box">
+                <h5><i class="bi bi-chat-left-text me-2"></i>Interprétation</h5>
+                {{ interpretation|safe }}
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-warning">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        Aucune donnée disponible. Veuillez d'abord
+        <a href="/generation" class="alert-link">générer les données</a>.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    {% if graph_data %}
+    const elbowData = {{ graph_data.elbow | tojson }};
+    Plotly.newPlot('elbow', elbowData.data, elbowData.layout, {responsive: true});
+
+    const silhouetteData = {{ graph_data.silhouette | tojson }};
+    Plotly.newPlot('silhouette', silhouetteData.data, silhouetteData.layout, {responsive: true});
+
+    const clustersData = {{ graph_data.clusters | tojson }};
+    Plotly.newPlot('clusters', clustersData.data, clustersData.layout, {responsive: true});
+    {% endif %}
+</script>
+{% endblock %}

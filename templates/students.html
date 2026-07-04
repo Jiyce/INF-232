@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Liste des Élèves - Lycée Analytics{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="page-title">
+                <i class="bi bi-people me-2"></i>Liste des Élèves
+            </h2>
+
+            {% if students %}
+            <!-- Statistiques rapides -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card stat-card">
+                        <div class="stat-value">{{ total }}</div>
+                        <div class="stat-label">Total Élèves</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card">
+                        <div class="stat-value">{{ "%.2f"|format(avg_note) }}/20</div>
+                        <div class="stat-label">Note Moyenne</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card">
+                        <div class="stat-value">{{ "%.1f"|format(avg_heures) }}h</div>
+                        <div class="stat-label">Heures Moyennes</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card">
+                        <div class="stat-value">{{ scientifique_count }}</div>
+                        <div class="stat-label">Scientifiques</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tableau des élèves -->
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-table me-2"></i>Données des Élèves</span>
+                    <span class="badge bg-light text-dark">{{ total }} élèves</span>
+                </div>
+                <div class="card-body p-1">
+                    <div class="table-container">
+                        <table class="table table-striped table-hover table-sm mb-1">
+                            <thead class="sticky-top">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nom</th>
+                                    <th>Note Math</th>
+                                    <th>Heures Étude</th>
+                                    <th>Orientation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in students %}
+                                <tr>
+                                    <td>{{ student.id }}</td>
+                                    <td>{{ student.nom }}</td>
+                                    <td>
+                                        <span class="badge {% if student.note_math >= 14 %}bg-success{% elif student.note_math >= 10 %}bg-warning{% else %}bg-danger{% endif %}">
+                                            {{ "%.2f"|format(student.note_math) }}
+                                        </span>
+                                    </td>
+                                    <td>{{ "%.1f"|format(student.heures_etude) }}h</td>
+                                    <td>
+                                        {% if student.orientation == 'Scientifique' %}
+                                        <span class="badge badge-scientifique">
+                                            <i class="bi bi-flask me-1"></i>Scientifique
+                                        </span>
+                                        {% else %}
+                                        <span class="badge badge-litteraire">
+                                            <i class="bi bi-book me-1"></i>Littéraire
+                                        </span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="alert alert-warning">
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                Aucune donnée disponible. Veuillez d'abord
+                <a href="/generation" class="alert-link">générer les données</a>.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

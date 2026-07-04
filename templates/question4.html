@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}Question 4 - Classification Supervisée{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="page-title">
+                <span class="question-number">4</span>
+                Classification Supervisée (Arbre de Décision)
+            </h2>
+        </div>
+    </div>
+
+    {% if results %}
+    <!-- Métriques principales -->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-value">{{ "%.1f"|format(results.accuracy * 100) }}%</div>
+                <div class="stat-label">Accuracy</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-value">{{ "%.1f"|format(results.precision * 100) }}%</div>
+                <div class="stat-label">Precision</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-value">{{ "%.1f"|format(results.recall * 100) }}%</div>
+                <div class="stat-label">Recall</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-value">{{ "%.1f"|format(results.f1_score * 100) }}%</div>
+                <div class="stat-label">F1-Score</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Matrice de confusion -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-grid-3x3 me-2"></i>Matrice de Confusion
+                </div>
+                <div class="card-body">
+                    <div id="confusion" class="plotly-graph"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-bar-chart me-2"></i>Comparaison des Modèles
+                </div>
+                <div class="card-body">
+                    <div id="models" class="plotly-graph"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Détails de la matrice -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-table me-2"></i>Détails de la Matrice de Confusion
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered text-center">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th colspan="2">Prédit</th>
+                                </tr>
+                                <tr>
+                                    <th>Réel</th>
+                                    <th>Scientifique</th>
+                                    <th>Littéraire</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>Scientifique</th>
+                                    <td class="table-success">
+                                        <strong>{{ results.confusion_matrix[0][0] }}</strong><br>
+                                        <small>Vrai Positif</small>
+                                    </td>
+                                    <td class="table-danger">
+                                        <strong>{{ results.confusion_matrix[1][0] }}</strong><br>
+                                        <small>Faux Négatif</small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Littéraire</th>
+                                    <td class="table-danger">
+                                        <strong>{{ results.confusion_matrix[0][1] }}</strong><br>
+                                        <small>Faux Positif</small>
+                                    </td>
+                                    <td class="table-success">
+                                        <strong>{{ results.confusion_matrix[1][1] }}</strong><br>
+                                        <small>Vrai Négatif</small>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interprétation -->
+    <div class="row mt-4 mb-5">
+        <div class="col-12">
+            <div class="interpretation-box">
+                <h5><i class="bi bi-chat-left-text me-2"></i>Interprétation et Risques</h5>
+                {{ interpretation|safe }}
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-warning">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        Aucune donnée disponible. Veuillez d'abord
+        <a href="/generation" class="alert-link">générer les données</a>.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    {% if graph_data %}
+    const confusionData = {{ graph_data.confusion | tojson }};
+    Plotly.newPlot('confusion', confusionData.data, confusionData.layout, {responsive: true});
+
+    const modelsData = {{ graph_data.models | tojson }};
+    Plotly.newPlot('models', modelsData.data, modelsData.layout, {responsive: true});
+    {% endif %}
+</script>
+{% endblock %}

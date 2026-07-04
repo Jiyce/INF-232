@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Accueil - Lycée Analytics{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container text-center">
+        <h1><i class="bi bi-bar-chart-line-fill me-3"></i>Lycée Analytics</h1>
+        <p class="lead">
+            Application d'analyse des performances des élèves de Terminale
+        </p>
+        <p class="mb-0">
+            <i class="bi bi-mortarboard me-2"></i>TP Statistiques et Analyse de Données
+        </p>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Introduction -->
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto text-center">
+            <h2 class="page-title">Bienvenue</h2>
+            <p class="lead">
+                Cette application permet d'analyser les performances scolaires des élèves de Terminale
+                à travers des méthodes statistiques et de Machine Learning.
+            </p>
+            <p>
+                Les données sont générées de manière <strong>déterministe</strong> à partir du nom du chef de groupe,
+                garantissant la reproductibilité des analyses.
+            </p>
+        </div>
+    </div>
+
+    <!-- Fonctionnalités -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h3 class="text-center mb-4">
+                <i class="bi bi-stars me-2"></i>Fonctionnalités
+            </h3>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card feature-card h-100">
+                <div class="feature-icon">
+                    <i class="bi bi-database-gear"></i>
+                </div>
+                <h4 class="feature-title">Génération de Données</h4>
+                <p>
+                    Générez automatiquement des données réalistes pour environ 250 élèves
+                    à partir du nom du chef de groupe.
+                </p>
+                <a href="/generation" class="btn btn-outline-primary mt-auto">
+                    <i class="bi bi-arrow-right me-2"></i>Accéder
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card feature-card h-100">
+                <div class="feature-icon">
+                    <i class="bi bi-graph-up"></i>
+                </div>
+                <h4 class="feature-title">Analyses Statistiques</h4>
+                <p>
+                    Explorez les données avec des statistiques descriptives,
+                    analyses bivariées, classifications supervisées et non supervisées.
+                </p>
+                <a href="/question1" class="btn btn-outline-primary mt-auto">
+                    <i class="bi bi-arrow-right me-2"></i>Explorer
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card feature-card h-100">
+                <div class="feature-icon">
+                    <i class="bi bi-file-earmark-pdf"></i>
+                </div>
+                <h4 class="feature-title">Export PDF</h4>
+                <p>
+                    Générez automatiquement un rapport universitaire complet
+                    avec toutes les analyses et interprétations.
+                </p>
+                <a href="/export" class="btn btn-outline-primary mt-auto">
+                    <i class="bi bi-arrow-right me-2"></i>Exporter
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Questions -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h3 class="text-center mb-4">
+                <i class="bi bi-question-circle me-2"></i>Questions d'Analyse
+            </h3>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card question-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="question-number">1</span>
+                        <h5 class="mb-1">Statistique Descriptive</h5>
+                    </div>
+                    <p>
+                        Analyse univariée des notes de mathématiques :
+                        moyenne, médiane, variance, histogramme, boîte à moustaches...
+                    </p>
+                    <a href="/question1" class="btn btn-sm btn-primary">
+                        <i class="bi bi-arrow-right me-2"></i>Voir l'analyse
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card question-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="question-number">2</span>
+                        <h5 class="mb-1">Analyse Bivariée</h5>
+                    </div>
+                    <p>
+                        Relation entre heures d'étude et notes :
+                        corrélation, régression linéaire, prédiction...
+                    </p>
+                    <a href="/question2" class="btn btn-sm btn-primary">
+                        <i class="bi bi-arrow-right me-2"></i>Voir l'analyse
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card question-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="question-number">3</span>
+                        <h5 class="mb-1">Classification Non Supervisée</h5>
+                    </div>
+                    <p>
+                        K-Means clustering pour identifier les profils d'élèves :
+                        méthode du coude, silhouette, caractéristiques des groupes...
+                    </p>
+                    <a href="/question3" class="btn btn-sm btn-primary">
+                        <i class="bi bi-arrow-right me-2"></i>Voir l'analyse
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card question-card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="question-number">4</span>
+                        <h5 class="mb-1">Classification Supervisée</h5>
+                    </div>
+                    <p>
+                        Arbres de décision pour prédire l'orientation :
+                        accuracy, precision, recall, matrice de confusion...
+                    </p>
+                    <a href="/question4" class="btn btn-sm btn-primary">
+                        <i class="bi bi-arrow-right me-2"></i>Voir l'analyse
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

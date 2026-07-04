@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+
+{% block title %}Question 1 - Statistique Descriptive{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="page-title">
+                <span class="question-number">1</span>
+                Statistique Descriptive
+            </h2>
+        </div>
+    </div>
+
+    {% if stats %}
+    <!-- Statistiques -->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-value">{{ "%.2f"|format(stats.moyenne) }}</div>
+                <div class="stat-label">Moyenne</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-value">{{ "%.2f"|format(stats.mediane) }}</div>
+                <div class="stat-label">Médiane</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-value">{{ "%.2f"|format(stats.ecart_type) }}</div>
+                <div class="stat-label">Écart-type</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-value">{{ "%.2f"|format(stats.variance) }}</div>
+                <div class="stat-label">Variance</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-value">{{ "%.2f"|format(stats.minimum) }}</div>
+                <div class="stat-label">Minimum</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-value">{{ "%.2f"|format(stats.maximum) }}</div>
+                <div class="stat-label">Maximum</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-value">{{ "%.2f"|format(stats.etendue) }}</div>
+                <div class="stat-label">Étendue</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-value">{{ stats.mode }}</div>
+                <div class="stat-label">Mode</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quartiles -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-list-ol me-2"></i>Quartiles
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-3">
+                            <h5>Q1 (25%)</h5>
+                            <p class="display-6 text-primary">{{ "%.2f"|format(stats.quartiles.q1) }}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>Q2 / Médiane (50%)</h5>
+                            <p class="display-6 text-primary">{{ "%.2f"|format(stats.quartiles.q2) }}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>Q3 (75%)</h5>
+                            <p class="display-6 text-primary">{{ "%.2f"|format(stats.quartiles.q3) }}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>IQR</h5>
+                            <p class="display-6 text-info">{{ "%.2f"|format(stats.quartiles.iqr) }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Graphiques -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-bar-chart me-2"></i>Histogramme
+                </div>
+                <div class="card-body">
+                    <div id="histogram" class="plotly-graph"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-box-seam me-2"></i>Boîte à Moustaches
+                </div>
+                <div class="card-body">
+                    <div id="boxplot" class="plotly-graph"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Valeurs atypiques -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-exclamation-triangle me-2"></i>Valeurs Atypiques
+                </div>
+                <div class="card-body">
+                    {% if stats.outliers %}
+                    <p>Nombre de valeurs atypiques détectées : <strong>{{ stats.outliers|length }}</strong></p>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Note</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for outlier in stats.outliers[:10] %}
+                                <tr>
+                                    <td>{{ outlier.nom }}</td>
+                                    <td>{{ "%.2f"|format(outlier.valeur) }}</td>
+                                    <td>
+                                        {% if outlier.valeur > stats.quartiles.q3 + 1.5 * stats.quartiles.iqr %}
+                                        <span class="badge bg-warning">Supérieure</span>
+                                        {% else %}
+                                        <span class="badge bg-info">Inférieure</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% if stats.outliers|length > 10 %}
+                        <p class="text-muted">... et {{ stats.outliers|length - 10 }} autres</p>
+                        {% endif %}
+                    </div>
+                    {% else %}
+                    <p class="text-success"><i class="bi bi-check-circle me-2"></i>Aucune valeur atypique détectée.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interprétation -->
+    <div class="row mt-4 mb-5">
+        <div class="col-12">
+            <div class="interpretation-box">
+                <h5><i class="bi bi-chat-left-text me-2"></i>Interprétation</h5>
+                {{ interpretation|safe }}
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-warning">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        Aucune donnée disponible. Veuillez d'abord
+        <a href="/generation" class="alert-link">générer les données</a>.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    {% if graph_data %}
+    // Histogramme
+    const histData = {{ graph_data.histogram | tojson }};
+    Plotly.newPlot('histogram', histData.data, histData.layout, {responsive: true});
+
+    // Boxplot
+    const boxData = {{ graph_data.boxplot | tojson }};
+    Plotly.newPlot('boxplot', boxData.data, boxData.layout, {responsive: true});
+    {% endif %}
+</script>
+{% endblock %}

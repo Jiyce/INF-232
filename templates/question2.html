@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}Question 2 - Analyse Bivariée{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="page-title">
+                <span class="question-number">2</span>
+                Analyse Bivariée : Heures d'Étude vs Notes
+            </h2>
+        </div>
+    </div>
+
+    {% if stats %}
+    <!-- Indicateurs de corrélation -->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-value">{{ "%.3f"|format(stats.correlation) }}</div>
+                <div class="stat-label">Corrélation (r)</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-value">{{ "%.3f"|format(stats.r_squared) }}</div>
+                <div class="stat-label">R² (Détermination)</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-value">{{ "%.2f"|format(stats.covariance) }}</div>
+                <div class="stat-label">Covariance</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="stat-value">{{ "%.2f"|format(stats.p_value) }}</div>
+                <div class="stat-label">P-value</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Équation de régression -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-calculator me-2"></i>Droite de Régression
+                </div>
+                <div class="card-body text-center">
+                    <h4 class="mb-3">
+                        y = {{ "%.3f"|format(stats.coefficient) }}x + {{ "%.3f"|format(stats.intercept) }}
+                    </h4>
+                    <p class="text-muted">
+                        Où <strong>y</strong> est la note prédite et <strong>x</strong> le nombre d'heures d'étude.
+                    </p>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <p><strong>Pente (coefficient) :</strong> {{ "%.3f"|format(stats.coefficient) }}</p>
+                            <p class="text-muted">Chaque heure supplémentaire augmente la note de {{ "%.2f"|format(stats.coefficient) }} points.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Ordonnée à l'origine :</strong> {{ "%.3f"|format(stats.intercept) }}</p>
+                            <p class="text-muted">Note estimée pour 0 heure d'étude (théorique).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Graphique nuage de points -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-scatter-chart me-2"></i>Nuage de Points avec Droite de Régression</span>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="exportPlot('scatter', 'regression')">
+                        <i class="bi bi-download me-1"></i>Exporter
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div id="scatter" class="plotly-graph" style="height: 500px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prédiction -->
+    <div class="row mt-4">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-magic me-2"></i>Prédiction de Note
+                </div>
+                <div class="card-body">
+                    <form id="predictionForm">
+                        <div class="mb-3">
+                            <label for="predictionHeures" class="form-label">
+                                Nombre d'heures d'étude par semaine
+                            </label>
+                            <input type="number" class="form-control" id="predictionHeures"
+                                   min="1" max="40" step="0.5" value="15" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-calculator me-2"></i>Prédire la Note
+                        </button>
+                    </form>
+                    <div id="predictionResult"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interprétation -->
+    <div class="row mt-4 mb-5">
+        <div class="col-12">
+            <div class="interpretation-box">
+                <h5><i class="bi bi-chat-left-text me-2"></i>Interprétation</h5>
+                {{ interpretation|safe }}
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-warning">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        Aucune donnée disponible. Veuillez d'abord
+        <a href="/generation" class="alert-link">générer les données</a>.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    {% if graph_data %}
+    const scatterData = {{ graph_data.scatter | tojson }};
+    Plotly.newPlot('scatter', scatterData.data, scatterData.layout, {responsive: true});
+    {% endif %}
+</script>
+{% endblock %}

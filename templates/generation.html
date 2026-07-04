@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Génération des Données - Lycée Analytics{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h2 class="page-title">
+                <i class="bi bi-database-gear me-2"></i>Génération des Données
+            </h2>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-sliders me-2"></i>Paramètres de Génération
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">
+                        Entrez le nom du chef de groupe pour générer les données.
+                        Le même nom produira toujours les mêmes données (génération déterministe).
+                    </p>
+
+                    <form id="generationForm">
+                        <div class="mb-3">
+                            <label for="chefGroupe" class="form-label">
+                                <i class="bi bi-person-badge me-2"></i>Nom du Chef de Groupe
+                            </label>
+                            <input type="text" class="form-control" id="chefGroupe"
+                                   placeholder="Ex: Marie Curie" required>
+                            <div class="form-text">
+                                Ce nom sera utilisé comme graine pour la génération déterministe.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="studentCount" class="form-label">
+                                <i class="bi bi-people me-2"></i>Nombre d'Élèves
+                            </label>
+                            <input type="number" class="form-control" id="studentCount"
+                                   value="250" min="1" max="1000">
+                            <div class="form-text">
+                                Par défaut: 250 élèves (recommandé pour les analyses statistiques).
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-play-circle me-2"></i>Générer les Données
+                        </button>
+                    </form>
+
+                    <!-- Spinner -->
+                    <div id="generationSpinner" class="spinner-container d-none mt-4">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Génération en cours...</span>
+                        </div>
+                        <span class="ms-3">Génération des données en cours...</span>
+                    </div>
+
+                    <!-- Résultat -->
+                    <div id="generationResult" class="mt-4"></div>
+                </div>
+            </div>
+
+            <!-- Informations -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <i class="bi bi-info-circle me-2"></i>Informations
+                </div>
+                <div class="card-body">
+                    <h6><i class="bi bi-shield-check me-2"></i>Déterminisme</h6>
+                    <p>
+                        Le générateur utilise une <strong>graine cryptographique</strong> (MD5)
+                        dérivée du nom du chef de groupe. Ainsi, le même nom produira
+                        <strong>exactement les mêmes données</strong> à chaque exécution.
+                    </p>
+
+                    <h6><i class="bi bi-graph-up me-2"></i>Réalisme</h6>
+                    <p>
+                        Les notes sont générées avec une <strong>corrélation positive</strong>
+                        avec les heures d'étude, simulant une relation réaliste :
+                        plus un élève travaille, meilleures sont ses notes (avec du bruit).
+                    </p>
+
+                    <h6><i class="bi bi-tags me-2"></i>Orientation</h6>
+                    <p>
+                        L'orientation (Scientifique/Littéraire) dépend de la combinaison
+                        note + heures d'étude, avec un seuil adaptatif pour créer une
+                        distribution réaliste.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
